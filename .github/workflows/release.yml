@@ -20,6 +20,6 @@ jobs:
         run: node --input-type=module -e 'import fs from "node:fs"; if(process.env.GITHUB_REF_NAME !== "v"+JSON.parse(fs.readFileSync("package.json")).version) process.exit(1)'
       - run: npm pack
       - run: sha256sum *.tgz > SHA256SUMS
-      - run: gh release create "$GITHUB_REF_NAME" *.tgz SHA256SUMS --generate-notes
+      - run: gh release create "$GITHUB_REF_NAME" *.tgz SHA256SUMS --generate-notes --prerelease
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

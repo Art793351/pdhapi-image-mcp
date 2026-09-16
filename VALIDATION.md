@@ -29,7 +29,7 @@ Updated: 2026-09-17 (Asia/Shanghai). Local environment: Windows, Node.js 24.14.0
 - Actual PdhAPI CDN delivery with the intended user's channel and key.
 - Desktop UI behavior in each target client; MCP protocol and configuration are locally tested.
 - Node 22, Linux and macOS execution. GitHub Actions has a matrix ready, but has not run.
-- GitHub repository creation, Actions run and public release. GitHub account is pending.
+- GitHub Actions results and release assets must be verified on the repository before describing them as passed.
 
 The public PdhAPI model list was checked separately during development. Presence in that list does not prove that an individual key can use a model.
 

@@ -4,6 +4,9 @@
   "description": "Generate and edit images through PdhAPI from MCP clients",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://github.com/Art793351/pdhapi-image-mcp#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/Art793351/pdhapi-image-mcp.git" },
+  "bugs": { "url": "https://github.com/Art793351/pdhapi-image-mcp/issues" },
   "engines": {
     "node": ">=22.19.0"
   },

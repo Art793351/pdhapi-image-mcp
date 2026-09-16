@@ -12,7 +12,7 @@ npm install -g .\pdhapi-image-mcp-0.1.0.tgz
 
 macOS/Linux 使用同样命令，将文件路径写为 `./pdhapi-image-mcp-0.1.0.tgz`。
 
-当前项目尚未公开发布到 GitHub/npm；现阶段使用维护者提供的 `.tgz` 安装包。不要直接使用尚未发布的 npm 包名安装。
+项目地址：[Art793351/pdhapi-image-mcp](https://github.com/Art793351/pdhapi-image-mcp)。请从 [Releases](https://github.com/Art793351/pdhapi-image-mcp/releases) 下载 `.tgz` 安装包；如果暂时没有发布包，可按仓库 README 从源码安装。尚未发布到 npm，不要直接使用 npm 包名安装。
 
 ## 2. 配置自己的 Key
 

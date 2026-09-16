@@ -4,7 +4,9 @@
 
 面向普通用户的三步配置说明：[USER_GUIDE.md](USER_GUIDE.md)。
 
-**当前版本：0.1.0，本地测试版。尚未发布到 GitHub 或 npm。已使用真实 Key 完成一次 Flare 生图、保存及 MCP 预览验证；编辑、多参考图及跨平台客户端仍待真实验收。**
+**当前版本：0.1.0，预览版。已使用真实 Key 完成一次 Flare 生图、保存及 MCP 预览验证；编辑、多参考图及跨平台客户端仍待真实验收。尚未发布到 npm。**
+
+[GitHub 仓库](https://github.com/Art793351/pdhapi-image-mcp) · [安装包发布页](https://github.com/Art793351/pdhapi-image-mcp/releases) · [问题反馈](https://github.com/Art793351/pdhapi-image-mcp/issues)
 
 ## 能做什么
 
@@ -32,9 +34,11 @@
 
 ## 从源码运行
 
-获取本仓库后，在项目目录执行：
+从 GitHub 获取源码并运行：
 
 ```sh
+git clone https://github.com/Art793351/pdhapi-image-mcp.git
+cd pdhapi-image-mcp
 npm ci
 node src/cli.js version
 node src/cli.js --help
@@ -153,7 +157,7 @@ pdhapi-image-mcp install --client codex --key-file /absolute/path/to/private-key
 
 目前尚未发布 npm 包，不要把 `npx pdhapi-image-mcp` 当成已经可用的安装方式。
 
-GitHub Actions 包含 Windows/macOS/Linux 的 Node 22/24 测试配置。推送与 `package.json` 版本匹配的 `v*` 标签时，发布流程先测试，再创建 GitHub Release，附带 npm 安装包和 SHA256 校验文件。它不会自动发布到 npm。
+GitHub Actions 包含 Windows/macOS/Linux 的 Node 22/24 测试配置。推送与 `package.json` 版本匹配的 `v*` 标签时，发布流程先测试，再创建 GitHub 预览版 Release，附带 npm 安装包和 SHA256 校验文件。它不会自动发布到 npm。
 
 发布前必须更新本页顶部状态，并完成自己的真实上游生图、改图和多参考图验收。当前本地验证范围见 [VALIDATION.md](VALIDATION.md)。
 
