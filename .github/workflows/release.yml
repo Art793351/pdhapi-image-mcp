@@ -1,0 +1,25 @@
+name: Release package
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - name: Verify tag
+        run: node --input-type=module -e 'import fs from "node:fs"; if(process.env.GITHUB_REF_NAME !== "v"+JSON.parse(fs.readFileSync("package.json")).version) process.exit(1)'
+      - run: npm pack
+      - run: sha256sum *.tgz > SHA256SUMS
+      - run: gh release create "$GITHUB_REF_NAME" *.tgz SHA256SUMS --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,11 @@
+node_modules/
+*.tgz
+*.zip
+.env
+.env.*
+!.env.example
+outputs/
+coverage/
+*.log
+*.bak-*
+*key*.txt

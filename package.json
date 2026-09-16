@@ -1,0 +1,42 @@
+{
+  "name": "pdhapi-image-mcp",
+  "version": "0.1.0",
+  "description": "Generate and edit images through PdhAPI from MCP clients",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "bin": {
+    "pdhapi-image-mcp": "src/cli.js"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "NOTICE.md",
+    "VALIDATION.md",
+    "USER_GUIDE.md"
+  ],
+  "scripts": {
+    "start": "node src/cli.js",
+    "test": "node --test",
+    "check": "node --check src/cli.js && node --check src/server.js && node --check src/api.js && node --check src/config.js && node --check src/install.js"
+  },
+  "keywords": [
+    "mcp",
+    "pdhapi",
+    "image-generation",
+    "codex",
+    "claude",
+    "cursor"
+  ],
+  "dependencies": {
+    "@iarna/toml": "2.2.5",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "ipaddr.js": "2.5.0",
+    "sharp": "0.35.4",
+    "undici": "8.10.2",
+    "zod": "4.6.5"
+  }
+}
