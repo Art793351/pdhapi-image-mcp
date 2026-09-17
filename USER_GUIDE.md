@@ -69,7 +69,7 @@ pdhapi-image-mcp install --client codex --key-file ~/.pdhapi/api-key.txt
 
 使用 Claude Code 或 Cursor 时，把 `codex` 换成 `claude` 或 `cursor`。安装器会自动找到对应配置文件、生成备份，不需要手工填写程序路径。
 
-接口默认是 `https://pdhlzy.com`，不用更改。默认生图模型为 `gpt-image-2.5-flare`，默认改图模型为 `gpt-image-2.5-sunburst`。
+接口默认是 `https://pdhlzy.com`，不用更改。默认生图模型为 `gpt-image-2.5-flare`，默认改图模型为 `gpt-image-2.5-sunburst`。这只是未指定时的默认值，**每次使用时都可以自行选择模型**：直接在提示词里说明想用的模型（比如"用 gpt-image-2 生成一张……"），客户端会自动传递到工具的 `model` 参数，临时覆盖默认值。也可以通过环境变量修改全局默认值。
 
 ## 3. 重启并验证
 
