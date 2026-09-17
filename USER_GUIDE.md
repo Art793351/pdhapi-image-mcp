@@ -7,13 +7,13 @@
 **macOS / Linux（一键安装）：**
 
 ```sh
-PDHAPI_INSTALL_VERSION=0.1.0 curl -fsSL https://github.com/Art793351/pdhapi-image-mcp/releases/download/v0.1.0/install.sh | sh
+PDHAPI_INSTALL_VERSION=0.2.0 curl -fsSL https://github.com/Art793351/pdhapi-image-mcp/releases/download/v0.2.0/install.sh | sh
 ```
 
 **Windows（一键安装，PowerShell）：**
 
 ```powershell
-$env:PDHAPI_INSTALL_VERSION='0.1.0'; Invoke-RestMethod https://github.com/Art793351/pdhapi-image-mcp/releases/download/v0.1.0/install.ps1 | Invoke-Expression
+$env:PDHAPI_INSTALL_VERSION='0.2.0'; Invoke-RestMethod https://github.com/Art793351/pdhapi-image-mcp/releases/download/v0.2.0/install.ps1 | Invoke-Expression
 ```
 
 两种脚本都会自动验证 SHA256 校验值、检查 Node.js 版本、全局安装包，并打印下一步操作提示。
@@ -23,10 +23,10 @@ $env:PDHAPI_INSTALL_VERSION='0.1.0'; Invoke-RestMethod https://github.com/Art793
 准备 Node.js 22.19.0 及以上版本，从 [Releases](https://github.com/Art793351/pdhapi-image-mcp/releases) 下载 `.tgz` 安装包，在下载目录执行：
 
 ```powershell
-npm install -g .\pdhapi-image-mcp-0.1.0.tgz
+npm install -g .\pdhapi-image-mcp-0.2.0.tgz
 ```
 
-macOS/Linux 使用同样命令，路径写为 `./pdhapi-image-mcp-0.1.0.tgz`。
+macOS/Linux 使用同样命令，路径写为 `./pdhapi-image-mcp-0.2.0.tgz`。
 
 ## 2. 配置自己的 Key
 
@@ -34,7 +34,13 @@ macOS/Linux 使用同样命令，路径写为 `./pdhapi-image-mcp-0.1.0.tgz`。
 
 ### 方式一：系统凭据管理器（推荐）
 
-macOS 使用 Keychain，Windows 使用 Credential Manager，Linux 使用 Secret Service（需要 `secret-tool`）。Key 不以明文写入任何配置文件：
+使用原生系统能力保存 Key，不以明文写入配置文件：
+
+- Windows：Credential Manager
+- macOS：Keychain
+- Linux：Secret Service（例如 GNOME Keyring、KWallet 或 KeePassXC）
+
+程序通过原生绑定访问凭据库，不要求用户安装 `secret-tool`。
 
 ```sh
 # 保存 Key（从终端交互输入，不会出现在命令历史）
@@ -47,7 +53,9 @@ pdhapi-image-mcp keychain get
 pdhapi-image-mcp install --client codex --keychain
 ```
 
-如果安装时未指定 `--key-file` 或 `--keychain`，且当前终端也没有设置 `PDHAPI_API_KEY`，命令行会在安装完成后主动询问是否现在输入 Key，并可选择直接保存到系统凭据管理器。非交互终端（脚本、CI）会跳过此提示。
+**Linux 说明**：需要系统提供可用的 Secret Service，例如 GNOME Keyring、KWallet 或 KeePassXC。无桌面密钥环的服务器建议使用私有 Key 文件。
+
+安装器会在写入客户端配置前询问是否输入并保存 Key。
 
 所有来源的 Key 在保存和读取时都会自动做基本格式校验：必须是单行、8–512 个可打印 ASCII 字符、不含空格。校验失败时会提示具体来源（环境变量、凭据管理器或密钥文件）和失败原因。校验只检查格式，不验证 Key 是否真实有效或有权限。
 

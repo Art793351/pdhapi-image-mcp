@@ -9,3 +9,4 @@ coverage/
 *.log
 *.bak-*
 *key*.txt
+DELIVERY.md

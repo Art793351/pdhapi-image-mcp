@@ -4,7 +4,7 @@
 
 面向普通用户的三步配置说明：[USER_GUIDE.md](USER_GUIDE.md)。
 
-**当前版本：0.1.0，预览版。已使用真实 Key 完成一次 Flare 生图、保存及 MCP 预览验证；编辑、多参考图及跨平台客户端仍待真实验收。尚未发布到 npm。**
+**当前版本：0.2.0，预览版。支持 Windows、macOS 和 Linux，可用于 Codex、Claude Code、Cursor 等兼容 MCP 的客户端。尚未发布到 npm。**
 
 [GitHub 仓库](https://github.com/Art793351/pdhapi-image-mcp) · [安装包发布页](https://github.com/Art793351/pdhapi-image-mcp/releases) · [问题反馈](https://github.com/Art793351/pdhapi-image-mcp/issues)
 
@@ -22,7 +22,7 @@
 
 返回结果包含保存文件的绝对路径、真实宽高和缩小预览。批量编辑返回文件列表；原图保持原始分辨率。是否显示内嵌预览由客户端决定。
 
-上游不一定严格按请求尺寸返回图片。程序会在 `warnings` 中报告尺寸差异，并保留上游原图，不静默缩放。首次实测请求 1024×1024，实际返回 1254×1254。
+上游不一定严格按请求尺寸返回图片。程序会在 `warnings` 中报告尺寸差异，并保留上游原图，不静默缩放。
 
 ## 环境要求
 
@@ -46,11 +46,20 @@ node src/cli.js --help
 
 先准备密钥，选用以下一种方式：
 
-1. **系统凭据管理器（推荐）**：macOS Keychain / Windows Credential Manager / Linux Secret Service，Key 不以明文写入任何配置文件：
+1. **系统凭据管理器（推荐）**：使用原生系统能力保存 Key，不以明文写入配置文件：
+   - Windows：Credential Manager
+   - macOS：Keychain
+   - Linux：Secret Service（例如 GNOME Keyring、KWallet 或 KeePassXC）
+   
+   Key 不会写入客户端配置或命令行参数。
+   
    ```sh
    pdhapi-image-mcp keychain set   # 交互输入 Key
    pdhapi-image-mcp install --client codex --keychain
    ```
+   
+   **Linux 说明**：需要系统提供可用的 Secret Service，例如 GNOME Keyring、KWallet 或 KeePassXC。无桌面密钥环的服务器建议使用私有 Key 文件。
+
 2. **私有文件**：将 Key 保存在仓库以外的私有 UTF-8 文件中（文件内只有 Key），安装时通过 `--key-file` 指定。
 3. **环境变量**：在启动 MCP 客户端的环境里设置 `PDHAPI_API_KEY`，然后完全退出并重新启动客户端。
 
@@ -80,7 +89,7 @@ node src/cli.js install --client codex --key-file 'C:\Users\YourName\.pdhapi\api
 
 安装器会合并 `pdhapi-image` 配置，保留其他 MCP 和设置，并在修改前生成完整备份。TOML/JSON 会重新序列化，原有注释或排版可能变化。安装后重新启动客户端。安装器只保存密钥文件路径，不复制密钥内容。
 
-如果 `install` 未指定 `--key-file`、`--keychain`，且当前终端未设置 `PDHAPI_API_KEY`，命令行会在安装完成后询问是否现在输入 Key；输入后可选择直接保存到系统凭据管理器。非交互终端（如脚本或 CI）跳过此步骤，不会阻塞。
+安装器会在写入客户端配置前询问是否配置 Key；非交互终端会跳过该步骤。
 
 所有来源的 Key（环境变量、凭据管理器、密钥文件）在保存和读取时都会做基本格式校验：单行、8–512 个可打印 ASCII 字符、不含空格。校验失败会提示具体来源和原因，但不校验 Key 是否真实有效或有权限。
 
@@ -92,7 +101,7 @@ node src/cli.js install --client codex --key-file 'C:\Users\YourName\.pdhapi\api
 | Claude Code | `~/.claude.json` |
 | Cursor | `~/.cursor/mcp.json` |
 
-Claude Desktop 使用不同的配置文件，可用 `--config` 指向其实际 JSON 配置。它未纳入本版实际客户端验收。
+Claude Desktop 使用不同的配置文件，可用 `--config` 指向其实际 JSON 配置。
 
 仅生成配置片段、不修改客户端配置：
 
@@ -120,8 +129,6 @@ node src/cli.js doctor
 > 用 PdhAPI 编辑这张图片，把背景改成浅灰色，保持产品不变。参考图片路径是……
 
 常用尺寸：`1024x1024`、`1536x1024`、`1024x1536`、`2048x1152`、`3840x2160`，也支持 `auto`。手动尺寸必须是 16 的倍数，每边最多 4096。工具允许填写不等于上游支持，具体尺寸和 `quality` 可用值受模型、渠道及账号权限影响。
-
-主站在本版开发时公开列出了 `gpt-image-2`、`gpt-image-2-2k`、`gpt-image-2-4k`、`gpt-image-2.5`、`gpt-image-2.5-flare`、`gpt-image-2.5-sunburst`；实际可调用范围以自己的 Key 为准。
 
 ## 配置项
 
@@ -164,18 +171,16 @@ npm test
 npm pack
 ```
 
-`npm pack` 生成 `pdhapi-image-mcp-0.1.0.tgz`。发布后用户可下载包再全局安装：
+`npm pack` 生成 `pdhapi-image-mcp-0.2.0.tgz`。发布后用户可下载包再全局安装：
 
 ```sh
-npm install -g ./pdhapi-image-mcp-0.1.0.tgz
+npm install -g ./pdhapi-image-mcp-0.2.0.tgz
 pdhapi-image-mcp install --client codex --key-file /absolute/path/to/private-key.txt
 ```
 
 目前尚未发布 npm 包，不要把 `npx pdhapi-image-mcp` 当成已经可用的安装方式。
 
-GitHub Actions 包含 Windows/macOS/Linux 的 Node 22/24 测试配置。推送与 `package.json` 版本匹配的 `v*` 标签时，发布流程先测试，再创建 GitHub 预览版 Release，附带 npm 安装包和 SHA256 校验文件。它不会自动发布到 npm。
-
-发布前必须更新本页顶部状态，并完成自己的真实上游生图、改图和多参考图验收。当前本地验证范围见 [VALIDATION.md](VALIDATION.md)。
+推送与 `package.json` 版本匹配的 `v*` 标签时，发布流程会创建 GitHub 预览版 Release，附带 npm 安装包和 SHA256 校验文件。它不会自动发布到 npm。
 
 ## 来源和许可证
 

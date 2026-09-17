@@ -1,6 +1,6 @@
 {
   "name": "pdhapi-image-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Generate and edit images through PdhAPI from MCP clients",
   "type": "module",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "README.md",
     "LICENSE",
     "NOTICE.md",
-    "VALIDATION.md",
+    "SECURITY.md",
     "USER_GUIDE.md"
   ],
   "scripts": {

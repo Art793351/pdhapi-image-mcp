@@ -5,4 +5,4 @@ This project is an independent JavaScript implementation for PdhAPI, not an offi
 
 At inspection on 2026-09-16 the reference repository declared `license = "MIT"` in `Cargo.toml`, but did not contain a standalone license file. No reference source files, installers, images, or documentation were copied into this distribution.
 
-This project's own source is MIT licensed. Runtime dependencies retain their own licenses, included in their npm packages. See `package-lock.json` for the exact dependency versions and package license metadata.
+This project's own source is MIT licensed. System credential storage is provided by `@napi-rs/keyring` and its platform-specific native packages. Third-party dependencies retain their respective licenses. Exact versions and package metadata are recorded in `package-lock.json`.
