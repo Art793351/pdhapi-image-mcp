@@ -121,11 +121,9 @@ node src/cli.js doctor
 
 ## 配置项
 
-所有图片生成工具都接受可选的 `api_key` 参数。如果在调用时提供了 `api_key`，它的优先级最高，会覆盖所有其他配置方式（环境变量、凭据管理器、密钥文件）。这使得用户可以在对话中直接提供 Key 而无需预先配置，或者临时使用不同的 Key。
-
 | 环境变量 | 默认值 / 用途 |
 | --- | --- |
-| `PDHAPI_API_KEY` | PdhAPI Key |
+| `PDHAPI_API_KEY` | PdhAPI Key，也可通过工具的 `api_key` 参数临时提供 |
 | `PDHAPI_API_KEY_FILE` | 包含 Key 的本地文件，优先级低于直接设置 Key |
 | `PDHAPI_API_KEY_KEYCHAIN` | 设为 `true` 时从系统凭据管理器读取 Key |
 | `PDHAPI_BASE_URL` | `https://pdhlzy.com`，也接受末尾带 `/v1` |
