@@ -6,11 +6,12 @@ import { mkdir, readFile, writeFile, rename, unlink, open } from 'node:fs/promis
 import TOML from '@iarna/toml';
 
 const clients = ['codex', 'claude', 'cursor'];
-export function clientEntry(client, { keyFile, output } = {}) {
+export function clientEntry(client, { keyFile, keychain, output } = {}) {
   if (!clients.includes(client)) throw new Error('Client must be codex, claude or cursor.');
   const entry = { command: process.execPath, args: [fileURLToPath(new URL('./cli.js', import.meta.url))],
     env: { PDHAPI_BASE_URL: 'https://pdhlzy.com' } };
-  if (client === 'codex') { entry.env_vars = ['PDHAPI_API_KEY', 'PDHAPI_API_KEY_FILE']; entry.tool_timeout_sec = 900; }
+  if (client === 'codex') { entry.env_vars = ['PDHAPI_API_KEY', 'PDHAPI_API_KEY_FILE', 'PDHAPI_API_KEY_KEYCHAIN']; entry.tool_timeout_sec = 900; }
+  if (keychain) entry.env.PDHAPI_API_KEY_KEYCHAIN = 'true';
   if (keyFile) entry.env.PDHAPI_API_KEY_FILE = path.resolve(keyFile);
   if (output) entry.env.PDHAPI_SAVE_DIR = path.resolve(output);
   return entry;
@@ -54,6 +55,7 @@ export async function install(client, options = {}) {
     doc[key] ||= {};
     const existing = doc[key]['pdhapi-image'] || {};
     doc[key]['pdhapi-image'] = { ...existing, ...entry, env: { ...entry.env, ...existing.env } };
+    if (options.keychain) doc[key]['pdhapi-image'].env.PDHAPI_API_KEY_KEYCHAIN = 'true';
     if (options.keyFile) doc[key]['pdhapi-image'].env.PDHAPI_API_KEY_FILE = path.resolve(options.keyFile);
     if (options.output) doc[key]['pdhapi-image'].env.PDHAPI_SAVE_DIR = path.resolve(options.output);
     if (client === 'codex') doc[key]['pdhapi-image'].env_vars = [...new Set([...(existing.env_vars || []), ...entry.env_vars])];

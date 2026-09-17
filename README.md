@@ -46,8 +46,13 @@ node src/cli.js --help
 
 先准备密钥，选用以下一种方式：
 
-1. 在启动 MCP 客户端的环境里设置 `PDHAPI_API_KEY`，然后完全退出并重新启动客户端。
-2. 将 Key 保存在仓库以外的私有 UTF-8 文件中，文件内只有 Key，安装时通过 `--key-file` 指定该文件。推荐桌面客户端使用这种方式，避免无法继承环境变量。
+1. **系统凭据管理器（推荐）**：macOS Keychain / Windows Credential Manager / Linux Secret Service，Key 不以明文写入任何配置文件：
+   ```sh
+   pdhapi-image-mcp keychain set   # 交互输入 Key
+   pdhapi-image-mcp install --client codex --keychain
+   ```
+2. **私有文件**：将 Key 保存在仓库以外的私有 UTF-8 文件中（文件内只有 Key），安装时通过 `--key-file` 指定。
+3. **环境变量**：在启动 MCP 客户端的环境里设置 `PDHAPI_API_KEY`，然后完全退出并重新启动客户端。
 
 不要把 Key 或密钥文件提交到 GitHub。不要使用带 Key 的命令行参数。本程序不会自动读取 `.env` 文件，`.env.example` 仅说明变量名称。
 
@@ -59,6 +64,12 @@ node src/cli.js --help
 node src/cli.js install --client codex --key-file /absolute/path/to/private-key.txt
 node src/cli.js install --client claude --key-file /absolute/path/to/private-key.txt
 node src/cli.js install --client cursor --key-file /absolute/path/to/private-key.txt
+```
+
+或使用凭据管理器：
+
+```sh
+node src/cli.js install --client codex --keychain
 ```
 
 Windows 示例：
@@ -114,6 +125,7 @@ node src/cli.js doctor
 | --- | --- |
 | `PDHAPI_API_KEY` | PdhAPI Key |
 | `PDHAPI_API_KEY_FILE` | 包含 Key 的本地文件，优先级低于直接设置 Key |
+| `PDHAPI_API_KEY_KEYCHAIN` | 设为 `true` 时从系统凭据管理器读取 Key |
 | `PDHAPI_BASE_URL` | `https://pdhlzy.com`，也接受末尾带 `/v1` |
 | `PDHAPI_MODEL` | `gpt-image-2.5-flare` |
 | `PDHAPI_EDIT_MODEL` | `gpt-image-2.5-sunburst` |
