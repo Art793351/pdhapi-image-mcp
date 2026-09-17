@@ -10,7 +10,8 @@ const size = z.string().regex(/^(auto|[1-9]\d{2,3}x[1-9]\d{2,3})$/).refine(value
 }, 'Dimensions must be multiples of 16, at most 4096 per side.').default('1024x1024');
 const common = { prompt: z.string().min(1).max(32000), model: z.string().min(1).max(150).optional(), size,
   quality: z.enum(['auto', 'low', 'medium', 'high', 'xhigh', 'max']).optional(),
-  response_format: z.enum(['b64_json', 'url']).default('b64_json') };
+  response_format: z.enum(['b64_json', 'url']).default('b64_json'),
+  api_key: z.string().min(1).max(200).optional() };
 const n = z.number().int().min(1).max(4).default(1);
 const text = value => ({ type: 'text', text: JSON.stringify(value, null, 2) });
 const render = result => ({ content: [text({ model: result.model, requested_size: result.requested_size, saved: result.saved, warnings: result.warnings }), ...result.previews] });

@@ -93,9 +93,11 @@ export class ImageApi {
   }
 
   async request(args, inputs = [], signal) {
-    let key;
-    try { key = await getKey(this.config); }
-    catch { throw new UserError('Set PDHAPI_API_KEY or a readable PDHAPI_API_KEY_FILE before generating images.'); }
+    let key = args.api_key;
+    if (!key) {
+      try { key = await getKey(this.config); }
+      catch { throw new UserError('Set PDHAPI_API_KEY or a readable PDHAPI_API_KEY_FILE before generating images.'); }
+    }
     const model = args.model || (inputs.length ? this.config.editModel : this.config.model);
     const fields = { model, prompt: args.prompt, size: args.size || '1024x1024', n: args.n || 1,
       response_format: args.response_format || 'b64_json' };
