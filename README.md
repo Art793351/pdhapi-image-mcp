@@ -4,7 +4,7 @@
 
 面向普通用户的三步配置说明：[USER_GUIDE.md](USER_GUIDE.md)。
 
-**当前版本：0.2.0，预览版。支持 Windows、macOS 和 Linux，可用于 Codex、Claude Code、Cursor 等兼容 MCP 的客户端。尚未发布到 npm。**
+**当前版本：0.2.0。支持 Windows、macOS 和 Linux，可用于 Codex、Claude Code、Cursor 等兼容 MCP 的客户端。尚未发布到 npm。**
 
 [GitHub 仓库](https://github.com/Art793351/pdhapi-image-mcp) · [安装包发布页](https://github.com/Art793351/pdhapi-image-mcp/releases) · [问题反馈](https://github.com/Art793351/pdhapi-image-mcp/issues)
 
@@ -180,7 +180,7 @@ pdhapi-image-mcp install --client codex --key-file /absolute/path/to/private-key
 
 目前尚未发布 npm 包，不要把 `npx pdhapi-image-mcp` 当成已经可用的安装方式。
 
-推送与 `package.json` 版本匹配的 `v*` 标签时，发布流程会创建 GitHub 预览版 Release，附带 npm 安装包和 SHA256 校验文件。它不会自动发布到 npm。
+推送与 `package.json` 版本匹配的 `v*` 标签时，发布流程会创建 GitHub Release（正式版），附带 npm 安装包、一键安装脚本和 SHA256 校验文件。它不会自动发布到 npm。
 
 ## 来源和许可证
 

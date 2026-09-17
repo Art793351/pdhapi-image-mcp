@@ -5,13 +5,11 @@
 - **System credential managers** use native platform APIs:
   - Windows: Credential Manager (via Win32 APIs)
   - macOS: Keychain (via Security.framework)
-  - Linux: Secret Service (via libsecret, requires GNOME Keyring, KWallet, or KeePassXC)
+  - Linux: Secret Service through the platform-native keyring backend (requires GNOME Keyring, KWallet, or KeePassXC)
 
-- Keys never appear in:
-  - Client configuration files
-  - Command-line arguments
-  - Process environment listings
-  - Log files
+- When the system credential manager is used, keys are not written to client configuration files or command-line arguments.
+
+- Users who choose `PDHAPI_API_KEY` should understand that environment variables may be visible to processes running under the same user account, depending on the operating system.
 
 ## Network Security
 
