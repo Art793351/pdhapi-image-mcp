@@ -2,6 +2,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { keychainGet } from './keychain.js';
+import { validateApiKey, stripTrailingNewline } from './validate.js';
+import { CliError } from './errors.js';
 
 export const VERSION = '0.1.0';
 export const MODELS = ['gpt-image-2', 'gpt-image-2-2k', 'gpt-image-2-4k', 'gpt-image-2.5', 'gpt-image-2.5-flare', 'gpt-image-2.5-sunburst'];
@@ -10,7 +12,7 @@ export function normalizeBase(value) {
   const url = new URL(value);
   const loopback = ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname);
   if ((url.protocol !== 'https:' && !(url.protocol === 'http:' && loopback)) || url.username || url.password || url.search || url.hash) {
-    throw new Error('Base URL requires HTTPS (HTTP is allowed only on loopback), without credentials, query or fragment.');
+    throw new CliError('Base URL requires HTTPS (HTTP is allowed only on loopback), without credentials, query or fragment.');
   }
   url.pathname = url.pathname.replace(/\/+$/, '').replace(/\/v1$/, '') + '/v1';
   return url.toString().replace(/\/$/, '');
@@ -18,12 +20,12 @@ export function normalizeBase(value) {
 
 export function loadConfig(env = process.env) {
   const timeout = Number(env.PDHAPI_TIMEOUT_SECONDS || 300);
-  if (!Number.isInteger(timeout) || timeout < 1 || timeout > 900) throw new Error('PDHAPI_TIMEOUT_SECONDS must be 1-900.');
+  if (!Number.isInteger(timeout) || timeout < 1 || timeout > 900) throw new CliError('PDHAPI_TIMEOUT_SECONDS must be 1-900.');
   const root = path.resolve(env.PDHAPI_SAVE_DIR || path.join(os.homedir(), 'Pictures', 'pdhapi-out'));
   const base = normalizeBase(env.PDHAPI_BASE_URL || 'https://pdhlzy.com');
   return {
     base, root, timeout: timeout * 1000,
-    key: (env.PDHAPI_API_KEY || '').trim(), keyFile: env.PDHAPI_API_KEY_FILE || '',
+    key: env.PDHAPI_API_KEY || '', keyFile: env.PDHAPI_API_KEY_FILE || '',
     keychain: env.PDHAPI_API_KEY_KEYCHAIN === 'true',
     model: env.PDHAPI_MODEL || 'gpt-image-2.5-flare',
     editModel: env.PDHAPI_EDIT_MODEL || 'gpt-image-2.5-sunburst',
@@ -32,18 +34,20 @@ export function loadConfig(env = process.env) {
   };
 }
 
-export async function getKey(config) {
+export async function getKey(config, { keychainOptions } = {}) {
   let key = config.key;
+  let source = 'PDHAPI_API_KEY';
   if (!key && config.keychain) {
-    try { key = await keychainGet(); }
-    catch (e) { throw new Error(e.message); }
+    try { key = await keychainGet(keychainOptions); source = 'system credential manager'; }
+    catch (e) { throw new CliError(e.message); }
   }
   if (!key && config.keyFile) {
-    try { key = (await readFile(config.keyFile, 'utf8')).trim(); }
-    catch { throw new Error('Cannot read PDHAPI_API_KEY_FILE.'); }
+    try { key = stripTrailingNewline(await readFile(config.keyFile, 'utf8')); source = 'PDHAPI_API_KEY_FILE'; }
+    catch { throw new CliError('Cannot read PDHAPI_API_KEY_FILE.'); }
   }
-  if (!key || /[\r\n]/.test(key)) throw new Error('Set PDHAPI_API_KEY, PDHAPI_API_KEY_KEYCHAIN=true, or PDHAPI_API_KEY_FILE to a valid PdhAPI key.');
-  return key;
+  if (!key) throw new CliError('Set PDHAPI_API_KEY, PDHAPI_API_KEY_KEYCHAIN=true, or PDHAPI_API_KEY_FILE to a valid PdhAPI key.');
+  try { return validateApiKey(key); }
+  catch (e) { throw new CliError(`Key from ${source} is invalid: ${e.message}`); }
 }
 
 export function publicInfo(config) {

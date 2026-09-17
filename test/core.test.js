@@ -167,7 +167,9 @@ for (const client of ['codex', 'claude', 'cursor']) {
     const doc = { custom: { enabled: true }, [section]: { other: { command: 'existing-tool', args: ['abc'] } } };
     const initial = client === 'codex' ? TOML.stringify(doc) : JSON.stringify(doc);
     await writeFile(file, initial);
-    const result = await install(client, { config: file, keyFile: path.join(root, 'private-key.txt') });
+    const keyFile = path.join(root, 'private-key.txt');
+    await writeFile(keyFile, 'test-only-fake-key-for-install-0123456789', 'utf8');
+    const result = await install(client, { config: file, keyFile });
     assert.equal(await readFile(result.backup, 'utf8'), initial);
     const updated = client === 'codex' ? TOML.parse(await readFile(file, 'utf8')) : JSON.parse(await readFile(file, 'utf8'));
     assert.deepEqual(updated.custom, doc.custom); assert.deepEqual(updated[section].other, doc[section].other);

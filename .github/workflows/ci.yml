@@ -15,6 +15,18 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: npm
+      - name: Install Secret Service (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsecret-tools gnome-keyring dbus-x11
+      - name: Start DBus and unlock keyring (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          eval $(dbus-launch --sh-syntax)
+          echo "DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS" >> $GITHUB_ENV
+          echo "DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID" >> $GITHUB_ENV
+          echo '' | gnome-keyring-daemon --unlock
       - run: npm ci
       - run: npm run check
       - run: npm test

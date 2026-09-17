@@ -47,6 +47,10 @@ pdhapi-image-mcp keychain get
 pdhapi-image-mcp install --client codex --keychain
 ```
 
+如果安装时未指定 `--key-file` 或 `--keychain`，且当前终端也没有设置 `PDHAPI_API_KEY`，命令行会在安装完成后主动询问是否现在输入 Key，并可选择直接保存到系统凭据管理器。非交互终端（脚本、CI）会跳过此提示。
+
+所有来源的 Key 在保存和读取时都会自动做基本格式校验：必须是单行、8–512 个可打印 ASCII 字符、不含空格。校验失败时会提示具体来源（环境变量、凭据管理器或密钥文件）和失败原因。校验只检查格式，不验证 Key 是否真实有效或有权限。
+
 ### 方式二：私有密钥文件
 
 把 Key 存入本机私有 UTF-8 文本文件，只含 Key 一行，放在项目目录以外：

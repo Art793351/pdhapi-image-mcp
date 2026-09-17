@@ -3,6 +3,7 @@ import { lookup } from 'node:dns';
 import path from 'node:path';
 import { mkdir, realpath, open, writeFile } from 'node:fs/promises';
 import ipaddr from 'ipaddr.js';
+import { validateApiKey } from './validate.js';
 import sharp from 'sharp';
 import { Agent } from 'undici';
 import { getKey } from './config.js';
@@ -94,7 +95,10 @@ export class ImageApi {
 
   async request(args, inputs = [], signal) {
     let key = args.api_key;
-    if (!key) {
+    if (key) {
+      try { key = validateApiKey(key); }
+      catch (e) { throw new UserError(`Per-call api_key is invalid: ${e.message}`); }
+    } else {
       try { key = await getKey(this.config); }
       catch { throw new UserError('Set PDHAPI_API_KEY or a readable PDHAPI_API_KEY_FILE before generating images.'); }
     }

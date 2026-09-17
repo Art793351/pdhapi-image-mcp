@@ -5,8 +5,13 @@
   "type": "module",
   "license": "MIT",
   "homepage": "https://github.com/Art793351/pdhapi-image-mcp#readme",
-  "repository": { "type": "git", "url": "git+https://github.com/Art793351/pdhapi-image-mcp.git" },
-  "bugs": { "url": "https://github.com/Art793351/pdhapi-image-mcp/issues" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Art793351/pdhapi-image-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Art793351/pdhapi-image-mcp/issues"
+  },
   "engines": {
     "node": ">=22.19.0"
   },
@@ -24,7 +29,7 @@
   "scripts": {
     "start": "node src/cli.js",
     "test": "node --test",
-    "check": "node --check src/cli.js && node --check src/server.js && node --check src/api.js && node --check src/config.js && node --check src/install.js && node --check src/keychain.js"
+    "check": "node --check src/cli.js && node --check src/server.js && node --check src/api.js && node --check src/config.js && node --check src/install.js && node --check src/keychain.js && node --check src/validate.js && node --check src/errors.js"
   },
   "keywords": [
     "mcp",
