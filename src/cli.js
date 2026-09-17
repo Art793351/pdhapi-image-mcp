@@ -93,21 +93,16 @@ The install command parses and reserializes the config; comments may be reformat
 Keep this installed package in place while clients use it.`);
   else if (command === 'keychain') {
     if (!keychainSupported()) throw new Error('System credential manager is not supported on this platform.');
-    // Internal test hook only: lets the test suite isolate keychain reads/writes
-    // from the real, default credential entry. Not a documented user-facing flag.
-    const keychainOptions = process.env.PDHAPI_TEST_KEYCHAIN_SERVICE
-      ? { service: process.env.PDHAPI_TEST_KEYCHAIN_SERVICE, account: process.env.PDHAPI_TEST_KEYCHAIN_ACCOUNT }
-      : undefined;
     if (subcommand === 'set') {
       const key = await readStdin();
       if (!key) throw new Error('No key provided.');
-      await keychainSet(key, keychainOptions);
+      await keychainSet(key);
       console.log('Key saved to system credential manager.');
     } else if (subcommand === 'get') {
-      await keychainGet(keychainOptions);
+      await keychainGet();
       console.log('Key is readable from system credential manager.');
     } else if (subcommand === 'delete') {
-      await keychainDelete(keychainOptions);
+      await keychainDelete();
       console.log('Key removed from system credential manager.');
     } else throw new Error('Usage: pdhapi-image-mcp keychain [set|get|delete]');
   }
