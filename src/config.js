@@ -1,11 +1,14 @@
 import os from 'node:os';
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { readFile } from 'node:fs/promises';
 import { keychainGet } from './keychain.js';
 import { validateApiKey, stripTrailingNewline } from './validate.js';
 import { CliError } from './errors.js';
 
-export const VERSION = '0.1.0';
+const { version: VERSION } = createRequire(import.meta.url)('../package.json');
+
+export { VERSION };
 export const MODELS = ['gpt-image-2', 'gpt-image-2-2k', 'gpt-image-2-4k', 'gpt-image-2.5', 'gpt-image-2.5-flare', 'gpt-image-2.5-sunburst'];
 
 export function normalizeBase(value) {

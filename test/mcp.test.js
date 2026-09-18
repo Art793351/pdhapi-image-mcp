@@ -3,14 +3,19 @@ import assert from 'node:assert/strict';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { createServer } from '../src/server.js';
 import { ImageApi } from '../src/api.js';
-import { loadConfig } from '../src/config.js';
+import { loadConfig, VERSION } from '../src/config.js';
+
+test('reported version matches package version', async () => {
+  const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
+  assert.equal(VERSION, packageJson.version);
+});
 
 test('real stdio handshake exposes five tools without leaking environment key', async t => {
   const transport = new StdioClientTransport({ command: process.execPath, args: [fileURLToPath(new URL('../src/cli.js', import.meta.url))], env: { ...process.env, PDHAPI_API_KEY: 'never-output-this-test-key' }, stderr: 'pipe' });
