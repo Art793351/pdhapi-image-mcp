@@ -79,10 +79,10 @@ if (($args.Count -ge 2) -and ($args[0] -eq "--local") -and (Test-Path $args[1]))
     Write-Host ""
     Write-Host "Usage:"
     Write-Host "  1. Install from GitHub release:"
-    Write-Host "     `$env:PDHAPI_INSTALL_VERSION='0.1.0'; .\install.ps1"
+    Write-Host "     `$env:PDHAPI_INSTALL_VERSION='0.2.1'; .\install.ps1"
     Write-Host ""
     Write-Host "  2. Install from local package:"
-    Write-Host "     .\install.ps1 --local .\pdhapi-image-mcp-0.1.0.tgz"
+    Write-Host "     .\install.ps1 --local .\pdhapi-image-mcp-0.2.1.tgz"
     exit 1
 }
 

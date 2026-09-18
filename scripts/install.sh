@@ -84,10 +84,10 @@ else
     echo
     echo "Usage:"
     echo "  1. Install from GitHub release:"
-    echo "     PDHAPI_INSTALL_VERSION=0.1.0 $0"
+    echo "     PDHAPI_INSTALL_VERSION=0.2.1 $0"
     echo
     echo "  2. Install from local package:"
-    echo "     $0 --local ./pdhapi-image-mcp-0.1.0.tgz"
+    echo "     $0 --local ./pdhapi-image-mcp-0.2.1.tgz"
     exit 1
 fi
 

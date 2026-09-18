@@ -4,7 +4,7 @@
 
 面向普通用户的三步配置说明：[USER_GUIDE.md](USER_GUIDE.md)。
 
-**当前版本：0.2.0。支持 Windows、macOS 和 Linux，可用于 Codex、Claude Code、Cursor 等兼容 MCP 的客户端。尚未发布到 npm。**
+**当前版本：0.2.1。支持 Windows、macOS 和 Linux，可用于 Codex、Claude Code、Cursor 等兼容 MCP 的客户端。**
 
 [GitHub 仓库](https://github.com/Art793351/pdhapi-image-mcp) · [安装包发布页](https://github.com/Art793351/pdhapi-image-mcp/releases) · [问题反馈](https://github.com/Art793351/pdhapi-image-mcp/issues)
 
@@ -171,10 +171,10 @@ npm test
 npm pack
 ```
 
-`npm pack` 生成 `pdhapi-image-mcp-0.2.0.tgz`。发布后用户可下载包再全局安装：
+`npm pack` 生成 `pdhapi-image-mcp-0.2.1.tgz`。用户也可下载 Release 包再全局安装：
 
 ```sh
-npm install -g ./pdhapi-image-mcp-0.2.0.tgz
+npm install -g ./pdhapi-image-mcp-0.2.1.tgz
 pdhapi-image-mcp install --client codex --key-file /absolute/path/to/private-key.txt
 ```
 

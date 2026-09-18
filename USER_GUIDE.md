@@ -7,13 +7,13 @@
 **macOS / Linux（一键安装）：**
 
 ```sh
-PDHAPI_INSTALL_VERSION=0.2.0 curl -fsSL https://github.com/Art793351/pdhapi-image-mcp/releases/download/v0.2.0/install.sh | sh
+PDHAPI_INSTALL_VERSION=0.2.1 curl -fsSL https://github.com/Art793351/pdhapi-image-mcp/releases/download/v0.2.1/install.sh | sh
 ```
 
 **Windows（一键安装，PowerShell）：**
 
 ```powershell
-$env:PDHAPI_INSTALL_VERSION='0.2.0'; Invoke-RestMethod https://github.com/Art793351/pdhapi-image-mcp/releases/download/v0.2.0/install.ps1 | Invoke-Expression
+$env:PDHAPI_INSTALL_VERSION='0.2.1'; Invoke-RestMethod https://github.com/Art793351/pdhapi-image-mcp/releases/download/v0.2.1/install.ps1 | Invoke-Expression
 ```
 
 两种脚本都会自动验证 SHA256 校验值、检查 Node.js 版本、全局安装包，并打印下一步操作提示。
@@ -23,10 +23,10 @@ $env:PDHAPI_INSTALL_VERSION='0.2.0'; Invoke-RestMethod https://github.com/Art793
 准备 Node.js 22.19.0 及以上版本，从 [Releases](https://github.com/Art793351/pdhapi-image-mcp/releases) 下载 `.tgz` 安装包，在下载目录执行：
 
 ```powershell
-npm install -g .\pdhapi-image-mcp-0.2.0.tgz
+npm install -g .\pdhapi-image-mcp-0.2.1.tgz
 ```
 
-macOS/Linux 使用同样命令，路径写为 `./pdhapi-image-mcp-0.2.0.tgz`。
+macOS/Linux 使用同样命令，路径写为 `./pdhapi-image-mcp-0.2.1.tgz`。
 
 ## 2. 配置自己的 Key
 
